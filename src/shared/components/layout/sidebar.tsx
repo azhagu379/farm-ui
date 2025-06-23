@@ -2,14 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Home,
-  Package,
-  ShoppingCart,
-  Tractor,
-  Users,
-  ChevronsLeft,
-} from "lucide-react";
+import { Tractor, ChevronsLeft } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -18,13 +11,8 @@ import {
 } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/lib";
 import { Button } from "@/shared/components/ui/button";
-
-const navLinks = [
-  { href: "/", label: "Dashboard", icon: Home },
-  { href: "/orders", label: "Orders", icon: ShoppingCart },
-  { href: "/products", label: "Products", icon: Package },
-  { href: "/users", label: "Users", icon: Users },
-];
+import { useSession } from "next-auth/react";
+import { navConfig, NavLink } from "@/shared/config/nav-config";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -33,14 +21,41 @@ interface SidebarProps {
 
 export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
   const pathname = usePathname();
+  const { data: session } = useSession(); // Get the user's session
+  const userRole = session?.user?.role; // Get the user's role
 
-  const renderLink = (link: (typeof navLinks)[0]) => (
+  // Separate top links from bottom links based on your navConfig structure
+  const topNavSections = navConfig.filter((section) => !section.label); // Sections without a label are assumed to be top
+  const bottomNavSections = navConfig.filter(
+    (section) => section.label === "Management" || section.label === "Account"
+  );
+
+  // Filter links for top sections
+  const filteredTopNavConfig = topNavSections
+    .map((section) => ({
+      ...section,
+      links: section.links.filter((link) =>
+        link.roles.includes(userRole as "BUYER" | "FARMER" | "ADMIN")
+      ),
+    }))
+    .filter((section) => section.links.length > 0);
+
+  // Filter links for bottom sections
+  const filteredBottomNavConfig = bottomNavSections
+    .map((section) => ({
+      ...section,
+      links: section.links.filter((link) =>
+        link.roles.includes(userRole as "BUYER" | "FARMER" | "ADMIN")
+      ),
+    }))
+    .filter((section) => section.links.length > 0);
+
+  const renderLink = (link: NavLink) => (
     <Link
       href={link.href}
       className={cn(
         "flex h-9 items-center rounded-lg text-muted-foreground transition-colors hover:text-foreground",
         {
-          // Updated: The active link now uses the primary theme color.
           "bg-primary text-primary-foreground hover:bg-primary/90":
             pathname === link.href,
         },
@@ -66,6 +81,7 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
       )}
     >
       <div className="relative flex h-full flex-col">
+        {/* Logo and App Name */}
         <div className="flex items-center border-b p-3 h-[60px]">
           <Link
             href="/"
@@ -87,29 +103,79 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
           </Link>
         </div>
 
+        {/* Top Navigation Links - This section will grow and push bottom links down */}
         <div className="flex-1 overflow-y-auto py-4">
           <TooltipProvider delayDuration={0}>
             <div className="flex w-full flex-col items-start gap-2 px-2">
-              {navLinks.map((link) =>
-                !isSidebarOpen ? (
-                  <Tooltip key={link.href}>
-                    <TooltipTrigger asChild>{renderLink(link)}</TooltipTrigger>
-                    <TooltipContent side="right">{link.label}</TooltipContent>
-                  </Tooltip>
-                ) : (
-                  <div key={link.href} className="w-full">
-                    {renderLink(link)}
-                  </div>
-                )
-              )}
+              {filteredTopNavConfig.map((section, sectionIndex) => (
+                <div key={`top-${sectionIndex}`} className="w-full">
+                  {section.label && isSidebarOpen && (
+                    <h3 className="mb-2 mt-4 px-3 text-xs font-semibold uppercase text-muted-foreground">
+                      {section.label}
+                    </h3>
+                  )}
+                  {section.links.map((link) =>
+                    !isSidebarOpen ? (
+                      <Tooltip key={link.href}>
+                        <TooltipTrigger asChild>
+                          {renderLink(link)}
+                        </TooltipTrigger>
+                        <TooltipContent side="right">
+                          {link.label}
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : (
+                      <div key={link.href} className="w-full">
+                        {renderLink(link)}
+                      </div>
+                    )
+                  )}
+                </div>
+              ))}
             </div>
           </TooltipProvider>
         </div>
 
+        {/* Bottom Navigation Links */}
+        <div className="border-t p-2">
+          {" "}
+          {/* Added border-t for separation */}
+          <TooltipProvider delayDuration={0}>
+            <div className="flex w-full flex-col items-start gap-2 px-2">
+              {filteredBottomNavConfig.map((section, sectionIndex) => (
+                <div key={`bottom-${sectionIndex}`} className="w-full">
+                  {section.label && isSidebarOpen && (
+                    <h3 className="mb-2 mt-4 px-3 text-xs font-semibold uppercase text-muted-foreground">
+                      {section.label}
+                    </h3>
+                  )}
+                  {section.links.map((link) =>
+                    !isSidebarOpen ? (
+                      <Tooltip key={link.href}>
+                        <TooltipTrigger asChild>
+                          {renderLink(link)}
+                        </TooltipTrigger>
+                        <TooltipContent side="right">
+                          {link.label}
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : (
+                      <div key={link.href} className="w-full">
+                        {renderLink(link)}
+                      </div>
+                    )
+                  )}
+                </div>
+              ))}
+            </div>
+          </TooltipProvider>
+        </div>
+
+        {/* Sidebar Toggle Button */}
         <div
           className={cn(
             "absolute top-[18px] z-20 transition-all duration-300 ease-in-out",
-            isSidebarOpen ? "right-2" : "-right-3" // Adjusted position for smaller size
+            isSidebarOpen ? "right-2" : "-right-3"
           )}
         >
           <Button

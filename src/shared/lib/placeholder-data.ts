@@ -1,17 +1,25 @@
 
+import { Order } from '@/entities/order/types';
 import { Product } from '@/entities/product/types';
 
-// --- User Data (from previous steps) ---
-export const users = [
-  {
-    id: '1',
-    name: 'Test User',
-    email: 'test@example.com',
-    password: 'password123',
-  },
-];
+   export const users = [
+      {
+        id: '1',
+        name: 'Test Buyer',
+        email: 'buyer@example.com',
+        password: 'password123',
+        role: 'BUYER',
+      },
+      {
+        id: '2',
+        name: 'Test Farmer',
+        email: 'farmer@example.com',
+        password: 'password123',
+        role: 'FARMER',
+      },
+    ];
 
-// --- Product Data (Indian Context) ---
+
 export const products: Product[] = [
   {
     id: '1',
@@ -82,5 +90,26 @@ export const products: Product[] = [
     farmer: 'Kerala Groves',
     price: 50, // Price per 250g
     status: 'Out of Stock',
+  },
+];
+
+export const orders: Order[] = [
+  {
+    id: 'ORD001',
+    date: '2024-06-20',
+    status: 'Delivered',
+    total: 300,
+  },
+  {
+    id: 'ORD002',
+    date: '2024-06-18',
+    status: 'Shipped',
+    total: 120,
+  },
+  {
+    id: 'ORD003',
+    date: '2024-06-15',
+    status: 'Delivered',
+    total: 650,
   },
 ];

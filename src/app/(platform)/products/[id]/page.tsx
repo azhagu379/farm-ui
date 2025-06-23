@@ -6,11 +6,14 @@ import { Separator } from "@/shared/components/ui/separator";
 import { Badge } from "@/shared/components/ui/badge";
 import { LoaderCircle, AlertTriangle, ShoppingCart } from "lucide-react";
 import { useParams } from "next/navigation";
-// import Image from 'next/image'; // The import is now uncommented
+import Image from "next/image"; // The import is now uncommented
+import { useCartStore } from "@/features/cart/store/useCartStore";
+import { toast } from "sonner";
 
 // The page component receives params, which includes the dynamic 'id' segment
 export default function ProductDetailPage() {
   const params = useParams<{ id: string }>();
+  const addItem = useCartStore((state) => state.addItem);
 
   const { data: product, isLoading, isError } = useProductByIdQuery(params.id);
 
@@ -34,18 +37,23 @@ export default function ProductDetailPage() {
     );
   }
 
+  const handleAddToCart = () => {
+    addItem(product);
+    toast.success(`${product.name} has been added to your cart!`);
+  };
+
   return (
     <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-6xl px-4 mx-auto py-6">
       <div className="grid gap-4 md:gap-10 items-start">
         <div className="grid gap-4">
           {/* The Image component is now active */}
-          {/* <Image
+          <Image
             src={`https://placehold.co/600x600/22543D/F7FAFC?text=${product.name.replace(/ /g, "+")}&font=lora`}
             alt={product.name}
             width={600}
             height={600}
             className="aspect-square object-cover border w-full rounded-lg overflow-hidden"
-          /> */}
+          />
         </div>
       </div>
       <div className="grid gap-4 md:gap-10 items-start">
@@ -81,7 +89,7 @@ export default function ProductDetailPage() {
           </p>
         </div>
         <Separator />
-        <Button size="lg">
+        <Button size="lg" onClick={handleAddToCart}>
           <ShoppingCart className="mr-2 h-5 w-5" />
           Add to Cart
         </Button>

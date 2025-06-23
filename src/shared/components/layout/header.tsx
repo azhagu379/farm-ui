@@ -15,6 +15,7 @@ import {
 import { Button } from "@/shared/components/ui/button";
 import { ThemeToggle } from "@/shared/components/common/theme-toggle";
 import { UserNav } from "@/shared/components/common/user-nav"; // Import UserNav
+import { CartButton } from "@/features/cart/store/components/cart-button";
 
 const mobileNavLinks = [
   { href: "/", label: "Dashboard", icon: Home },
@@ -57,10 +58,10 @@ export function Header() {
         </SheetContent>
       </Sheet>
 
-      {/* Right-side content */}
       <div className="ml-auto flex items-center gap-4">
         <ThemeToggle />
-        <UserNav /> {/* Add the UserNav component here */}
+        <CartButton /> {/* Add the CartButton here */}
+        <UserNav />
       </div>
     </header>
   );
