@@ -1,18 +1,24 @@
 import { NextResponse } from 'next/server';
 import { products as allProducts } from '@/lib/placeholder-data';
 
-// This function handles GET requests for a single product by its ID.
+// Correct RouteParams type definition
+type RouteParams = { id: string };
+
 export async function GET(
   request: Request,
-  // The 'params' object is now correctly destructured from the second argument.
-  { params }: { params: { id: string } }
+  context: { params: Promise<RouteParams> }
 ) {
-  // Find the product in our mock data array
-  const product = allProducts.find((p) => p.id === params.id);
+  // Await the resolved params object
+  const { id } = await context.params;
+
+  // Locate product
+  const product = allProducts.find((p) => p.id === id);
 
   if (!product) {
-    // If no product is found, return a 404 error
-    return new NextResponse('Product not found', { status: 404 });
+    return NextResponse.json(
+      { error: 'Product not found' },
+      { status: 404 }
+    );
   }
 
   // Simulate network latency
