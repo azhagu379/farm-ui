@@ -2,17 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {  ChevronsLeft, Sprout } from "lucide-react";
+import { ChevronsLeft, Sprout } from "lucide-react"; // Using Sprout as per your preference
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib";
+import { cn } from "@/lib"; // Your specified path
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { navConfig, NavLink } from "@/config/nav-config";
+import { navConfig, NavLink, NavSection } from "@/config/nav-config";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -21,48 +21,80 @@ interface SidebarProps {
 
 export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
   const pathname = usePathname();
-  const { data: session } = useSession(); // Get the user's session
-  const userRole = session?.user?.role; // Get the user's role
+  const { data: session } = useSession();
+  const effectiveUserRole: "BUYER" | "FARMER" | "ADMIN" | "PUBLIC" =
+    (session?.user?.role as "BUYER" | "FARMER" | "ADMIN") || "PUBLIC";
 
-  // Separate top links from bottom links based on your navConfig structure
-  const topNavSections = navConfig.filter((section) => !section.label); // Sections without a label are assumed to be top
-  const bottomNavSections = navConfig.filter(
-    (section) => section.label === "Management" || section.label === "Account"
+  const discoverNavSections = navConfig.filter(
+    (section) => section.label === "Discover"
+  );
+  const activityNavSections = navConfig.filter(
+    (section) => section.label === "Your Activity"
+  );
+  const managementNavSections = navConfig.filter(
+    (section) => section.label === "Management"
+  );
+  const accountNavSections = navConfig.filter(
+    (section) => section.label === "Account"
+  );
+  const infoNavSections = navConfig.filter(
+    (section) => section.label === "Help & Info"
   );
 
-  // Filter links for top sections
-  const filteredTopNavConfig = topNavSections
-    .map((section) => ({
-      ...section,
-      links: section.links.filter((link) =>
-        link.roles.includes(userRole as "BUYER" | "FARMER" | "ADMIN")
-      ),
-    }))
-    .filter((section) => section.links.length > 0);
+  const filterLinksByRole = (sections: NavSection[]) => {
+    return sections
+      .map((section) => ({
+        ...section,
+        links: section.links.filter((link) =>
+          link.roles.includes(effectiveUserRole)
+        ),
+      }))
+      .filter((section) => section.links.length > 0);
+  };
 
-  // Filter links for bottom sections
-  const filteredBottomNavConfig = bottomNavSections
-    .map((section) => ({
-      ...section,
-      links: section.links.filter((link) =>
-        link.roles.includes(userRole as "BUYER" | "FARMER" | "ADMIN")
-      ),
-    }))
-    .filter((section) => section.links.length > 0);
+  const filteredDiscoverNav = filterLinksByRole(discoverNavSections);
+  const filteredActivityNav = filterLinksByRole(activityNavSections);
+  const filteredManagementNav = filterLinksByRole(managementNavSections);
+  const filteredAccountNav = filterLinksByRole(accountNavSections);
+  const filteredInfoNav = filterLinksByRole(infoNavSections);
+
+  const renderSection = (section: NavSection, sectionKey: string) => (
+    <div key={sectionKey} className="w-full">
+      {section.label && isSidebarOpen && (
+        <h3 className="mb-2 mt-4 px-3 text-xs font-bold uppercase text-muted-foreground">
+          {section.label}
+        </h3>
+      )}
+      {section.links.map((link) =>
+        !isSidebarOpen ? (
+          <Tooltip key={link.href}>
+            <TooltipTrigger asChild>{renderLink(link)}</TooltipTrigger>
+            <TooltipContent side="right">{link.label}</TooltipContent>
+          </Tooltip>
+        ) : (
+          <div key={link.href} className="w-full">
+            {renderLink(link)}
+          </div>
+        )
+      )}
+    </div>
+  );
 
   const renderLink = (link: NavLink) => (
     <Link
       href={link.href}
       className={cn(
-        "flex h-9 items-center rounded-lg text-muted-foreground transition-colors hover:text-foreground",
+        "flex h-10 items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200", // Taller links, more padding
         {
-          "bg-primary text-primary-foreground hover:bg-primary/90":
+          "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm":
             pathname === link.href,
+          "text-muted-foreground hover:bg-accent/50 hover:text-foreground":
+            pathname !== link.href,
         },
-        isSidebarOpen ? "w-full justify-start gap-4 px-3" : "w-9 justify-center"
+        "w-full justify-start gap-4"
       )}
     >
-      <link.icon className="h-5 w-5" />
+      <link.icon className="h-5 w-5" /> {/* Increased size here */}
       <span
         className={cn("whitespace-nowrap", {
           "sr-only": !isSidebarOpen,
@@ -81,20 +113,21 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
       )}
     >
       <div className="relative flex h-full flex-col">
-        {/* Logo and App Name */}
-        <div className="flex items-center border-b p-3 h-[60px]">
+        {/* Logo and App Name - Consistent with Header Height */}
+        <div className="flex items-center border-b p-3 h-20">
           <Link
             href="/"
             className={cn(
-              "group flex items-center gap-2 font-semibold",
+              "group flex items-center gap-2 font-semibold text-xl text-primary",
               !isSidebarOpen && "justify-center"
             )}
           >
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary md:h-8 md:w-8">
-              <Sprout className="h-4 w-4 transition-all group-hover:scale-110" />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary md:h-9 md:w-9">
+              <Sprout className="h-6 w-6 transition-all group-hover:scale-110" />{" "}
+              {/* Increased size here */}
             </div>
             <span
-              className={cn("whitespace-nowrap text-sm", {
+              className={cn("whitespace-nowrap", {
                 "sr-only": !isSidebarOpen,
               })}
             >
@@ -103,68 +136,53 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
           </Link>
         </div>
 
+        {/* Main Navigation Sections - Top part (Discover, Your Activity, Management) */}
         <div className="flex-1 overflow-y-auto py-4">
           <TooltipProvider delayDuration={0}>
-            <div className="flex w-full flex-col items-start gap-2 px-2">
-              {filteredTopNavConfig.map((section, sectionIndex) => (
-                <div key={`top-${sectionIndex}`} className="w-full">
-                  {section.label && isSidebarOpen && (
-                    <h3 className="mb-2 mt-4 px-3 text-xs font-semibold uppercase text-muted-foreground">
-                      {section.label}
-                    </h3>
-                  )}
-                  {section.links.map((link) =>
-                    !isSidebarOpen ? (
-                      <Tooltip key={link.href}>
-                        <TooltipTrigger asChild>
-                          {renderLink(link)}
-                        </TooltipTrigger>
-                        <TooltipContent side="right">
-                          {link.label}
-                        </TooltipContent>
-                      </Tooltip>
-                    ) : (
-                      <div key={link.href} className="w-full">
-                        {renderLink(link)}
-                      </div>
-                    )
+            <div className="flex w-full flex-col items-start gap-1 px-2">
+              {/* Discover Section */}
+              {filteredDiscoverNav.map((section, idx) =>
+                renderSection(section, `discover-${idx}`)
+              )}
+
+              {/* Your Activity Section (separated by a subtle border) */}
+              {filteredActivityNav.length > 0 && (
+                <div className="w-full mt-4 pt-4 border-t border-border/50">
+                  {filteredActivityNav.map((section, idx) =>
+                    renderSection(section, `activity-${idx}`)
                   )}
                 </div>
-              ))}
+              )}
+
+              {/* Management Section (separated) */}
+              {filteredManagementNav.length > 0 && (
+                <div className="w-full mt-4 pt-4 border-t border-border/50">
+                  {filteredManagementNav.map((section, idx) =>
+                    renderSection(section, `management-${idx}`)
+                  )}
+                </div>
+              )}
             </div>
           </TooltipProvider>
         </div>
 
-        {/* Bottom Navigation Links */}
-        <div className="border-t p-2">
-          {/* Added border-t for separation */}
+        {/* Bottom Navigation Links (Account, Help & Info) */}
+        <div className="border-t border-border/50 p-2 mt-auto">
           <TooltipProvider delayDuration={0}>
-            <div className="flex w-full flex-col items-start gap-2 px-2">
-              {filteredBottomNavConfig.map((section, sectionIndex) => (
-                <div key={`bottom-${sectionIndex}`} className="w-full">
-                  {section.label && isSidebarOpen && (
-                    <h3 className="mb-2 mt-4 px-3 text-xs font-semibold uppercase text-muted-foreground">
-                      {section.label}
-                    </h3>
-                  )}
-                  {section.links.map((link) =>
-                    !isSidebarOpen ? (
-                      <Tooltip key={link.href}>
-                        <TooltipTrigger asChild>
-                          {renderLink(link)}
-                        </TooltipTrigger>
-                        <TooltipContent side="right">
-                          {link.label}
-                        </TooltipContent>
-                      </Tooltip>
-                    ) : (
-                      <div key={link.href} className="w-full">
-                        {renderLink(link)}
-                      </div>
-                    )
+            <div className="flex w-full flex-col items-start gap-1 px-2">
+              {/* Account Section */}
+              {filteredAccountNav.map((section, idx) =>
+                renderSection(section, `account-${idx}`)
+              )}
+
+              {/* Help & Info Section (separated) */}
+              {filteredInfoNav.length > 0 && (
+                <div className="w-full mt-4 pt-4 border-t border-border/50">
+                  {filteredInfoNav.map((section, idx) =>
+                    renderSection(section, `info-${idx}`)
                   )}
                 </div>
-              ))}
+              )}
             </div>
           </TooltipProvider>
         </div>
