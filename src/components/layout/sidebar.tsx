@@ -137,7 +137,7 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
         </div>
 
         {/* Main Navigation Sections - Top part (Discover, Your Activity, Management) */}
-        <div className="w-full mt-4 pt-4 border-t border-border/50">
+        <div className="w-full pt-4 border-t border-border/50">
           <TooltipProvider delayDuration={0}>
             <div className="flex w-full flex-col items-start gap-1 px-2">
               {/* Discover Section */}
@@ -191,7 +191,7 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
         <div
           className={cn(
             "absolute z-20 transition-all duration-300 ease-in-out",
-            "top-15 -translate-y-1/2",
+            "top-20 -translate-y-1/2",
             "-right-1 rounded-l-full"
           )}
         >
