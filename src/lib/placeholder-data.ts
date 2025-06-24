@@ -6,16 +6,12 @@ import { User } from '@/entities/user/types';
 import { FarmerProfile } from '@/entities/farmer/types';
 import { Category } from '@/entities/category/types';
 
-// --- Dummy Data Arrays (Simulating database tables) ---
-// These arrays are mutable (`const`) because your Next.js API routes will modify them
-// for POST, PUT, and DEconstE operations.
-
 export const users: User[] = [
   {
     id: 'user_buyer_1',
     name: 'Alice Buyer',
     email: 'buyer@example.com',
-    password: 'password123', // In a real app, this would be a hashed password
+    password: 'password123',
     role: 'BUYER',
     createdAt: '2023-01-15T10:00:00Z',
     updatedAt: '2023-01-15T10:00:00Z',
@@ -148,73 +144,8 @@ export const products: Product[] = [
     createdAt: '2024-02-15T10:00:00Z',
     updatedAt: '2024-02-15T10:00:00Z',
   },
-  {
-    id: 'prod_6',
-    name: 'Sprouted Moong Dal',
-    description: 'Freshly sprouted green gram (moong dal), ready to use in salads or curries. Packed with nutrients.',
-    price: 70.00,
-    stock: 25,
-    status: 'In Stock',
-    imageUrl: ['/images/mock/product_moong_dal.jpg'],
-    category: 'Grains & Pulses',
-    farmerId: 'farm_bob', // Example: Another product from Bob
-    createdAt: '2024-03-01T08:00:00Z',
-    updatedAt: '2024-03-01T08:00:00Z',
-  },
-  {
-    id: 'prod_7',
-    name: 'Organic Bananas (Dwarf Cavendish)',
-    description: 'Sweet and creamy organic bananas, perfect for snacks or smoothies. Grown without pesticides.',
-    price: 45.00,
-    stock: 40,
-    status: 'In Stock',
-    imageUrl: ['/images/mock/product_banana.jpg'],
-    category: 'Fruits',
-    farmerId: 'farm_bob',
-    createdAt: '2024-04-10T14:00:00Z',
-    updatedAt: '2024-04-10T14:00:00Z',
-  },
-  {
-    id: 'prod_8',
-    name: 'Farm Fresh Paneer (200g)',
-    description: 'Soft and delicious paneer, made fresh daily from cow\'s milk. Ideal for Indian curries.',
-    price: 150.00,
-    stock: 15,
-    status: 'In Stock',
-    imageUrl: ['/images/mock/product_paneer.jpg'],
-    category: 'Dairy & Eggs',
-    farmerId: 'farm_david',
-    createdAt: '2024-05-01T09:00:00Z',
-    updatedAt: '2024-05-01T09:00:00Z',
-  },
-  {
-    id: 'prod_9',
-    name: 'Homemade Ghee (500ml)',
-    description: 'Pure, aromatic ghee made from clarified butter, prepared in small batches.',
-    price: 350.00,
-    stock: 8,
-    status: 'Low Stock',
-    imageUrl: ['/images/mock/product_ghee.jpg'],
-    category: 'Dairy & Eggs',
-    farmerId: 'farm_david',
-    createdAt: '2024-05-20T16:00:00Z',
-    updatedAt: '2024-05-20T16:00:00Z',
-  },
-  {
-    id: 'prod_10',
-    name: 'Freshly Baked Wheat Bread',
-    description: 'Soft and wholesome whole wheat bread, baked every morning. No preservatives.',
-    price: 80.00,
-    stock: 12,
-    status: 'In Stock',
-    imageUrl: ['/images/mock/product_wheat_bread.jpg'],
-    category: 'Baked Goods',
-    farmerId: 'farm_bob',
-    createdAt: '2024-06-05T11:00:00Z',
-    updatedAt: '2024-06-05T11:00:00Z',
-  },
+  // Add more products as needed
 ];
-
 
 export const addresses: Address[] = [
   {

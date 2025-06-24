@@ -137,7 +137,7 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
         </div>
 
         {/* Main Navigation Sections - Top part (Discover, Your Activity, Management) */}
-        <div className="flex-1 overflow-y-auto py-4">
+        <div className="w-full mt-4 pt-4 border-t border-border/50">
           <TooltipProvider delayDuration={0}>
             <div className="flex w-full flex-col items-start gap-1 px-2">
               {/* Discover Section */}
