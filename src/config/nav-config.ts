@@ -77,7 +77,7 @@ export const navConfig: NavSection[] = [
         href: '/orders', 
         label: 'My Orders', 
         icon: ShoppingBag, 
-        roles: ['BUYER', 'FARMER', 'ADMIN'], // Accessible to any authenticated user who has orders
+        roles: ['BUYER',  'ADMIN'], // Accessible to any authenticated user who has orders
       }, 
       {
         href: '/cart', // Direct link to cart page
@@ -100,6 +100,12 @@ export const navConfig: NavSection[] = [
         href: '/farmer/dashboard', 
         label: 'My Farm', 
         icon: Store, 
+        roles: ['FARMER'], 
+      }, 
+       { 
+        href: '/farmer/orders', 
+        label: 'Orders', 
+        icon: ShoppingBag, 
         roles: ['FARMER'], 
       }, 
       { 

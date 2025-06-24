@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getFarmerProducts } from '../api/farmerProductService';
+import { getFarmerProducts } from '../api/farmerService';
 
 export const useFarmerProductsQuery = () => {
   return useQuery({
