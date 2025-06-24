@@ -78,7 +78,7 @@ export const categories: Category[] = [
   { id: 'cat_baked', name: 'Baked Goods', slug: 'baked-goods', description: 'Artisan breads and fresh baked delights.', imageUrl: '/images/mock/category_baked.jpg', createdAt: '2023-01-01T08:00:00Z', updatedAt: '2023-01-01T08:00:00Z' },
 ];
 
-export const products: Product[] = [
+export const products: Product[] = [ // 'let' because API routes will modify this array
   {
     id: 'prod_1',
     name: 'Organic Heirloom Tomatoes',
@@ -91,6 +91,8 @@ export const products: Product[] = [
     farmerId: 'farm_bob',
     createdAt: '2023-04-01T13:00:00Z',
     updatedAt: '2023-04-01T13:00:00Z',
+    salesCount: 150, // Added salesCount
+    isDeal: false,
   },
   {
     id: 'prod_2',
@@ -104,6 +106,8 @@ export const products: Product[] = [
     farmerId: 'farm_david',
     createdAt: '2023-05-10T09:00:00Z',
     updatedAt: '2023-05-10T09:00:00Z',
+    salesCount: 200, // Added salesCount
+    isDeal: true, // Mark as a deal
   },
   {
     id: 'prod_3',
@@ -117,6 +121,8 @@ export const products: Product[] = [
     farmerId: 'farm_bob',
     createdAt: '2023-06-01T15:00:00Z',
     updatedAt: '2023-06-01T15:00:00Z',
+    salesCount: 80, // Added salesCount
+    isDeal: false,
   },
   {
     id: 'prod_4',
@@ -130,6 +136,8 @@ export const products: Product[] = [
     farmerId: 'farm_bob',
     createdAt: '2023-07-20T11:00:00Z',
     updatedAt: '2023-07-20T11:00:00Z',
+    salesCount: 120, // Added salesCount
+    isDeal: false,
   },
   {
     id: 'prod_5',
@@ -143,22 +151,86 @@ export const products: Product[] = [
     farmerId: 'farm_david',
     createdAt: '2024-02-15T10:00:00Z',
     updatedAt: '2024-02-15T10:00:00Z',
+    salesCount: 250, // Added salesCount
+    isDeal: false,
   },
-   {
+  {
     id: 'prod_6',
     name: 'Farm Fresh Milk (5 Liter)',
-    description: 'Pure, unpasteurized A2 cow\'s milk from our dairy farm. Delivered fresh daily. Priced per liter.',
+    description: 'Pure, unpasteurized A2 cow\'s milk from our dairy farm. Delivered fresh daily. This is a bulk option.',
     price: 160.00,
     stock: 10,
-    status: 'Pending Approval',
+    status: 'Pending Approval', // This product is specifically for Admin approval testing
     imageUrl: ['/images/mock/product_milk_1.jpg'],
     category: 'Dairy & Eggs',
     farmerId: 'farm_david',
     createdAt: '2024-02-15T10:00:00Z',
     updatedAt: '2024-02-15T10:00:00Z',
+    salesCount: 50,
+    isDeal: false,
   },
-  
+  {
+    id: 'prod_7',
+    name: 'Organic Bananas (Dwarf Cavendish)',
+    description: 'Sweet and creamy organic bananas, perfect for snacks or smoothies. Grown without pesticides.',
+    price: 45.00,
+    stock: 40,
+    status: 'In Stock',
+    imageUrl: ['/images/mock/product_banana.jpg'],
+    category: 'Fruits',
+    farmerId: 'farm_bob',
+    createdAt: '2024-04-10T14:00:00Z',
+    updatedAt: '2024-04-10T14:00:00Z',
+    salesCount: 180,
+    isDeal: true, // Mark as a deal
+  },
+  {
+    id: 'prod_8',
+    name: 'Farm Fresh Paneer (200g)',
+    description: 'Soft and delicious paneer, made fresh daily from cow\'s milk. Ideal for Indian curries.',
+    price: 150.00,
+    stock: 15,
+    status: 'In Stock',
+    imageUrl: ['/images/mock/product_paneer.jpg'],
+    category: 'Dairy & Eggs',
+    farmerId: 'farm_david',
+    createdAt: '2024-05-01T09:00:00Z',
+    updatedAt: '2024-05-01T09:00:00Z',
+    salesCount: 90,
+    isDeal: false,
+  },
+  {
+    id: 'prod_9',
+    name: 'Homemade Ghee (500ml)',
+    description: 'Pure, aromatic ghee made from clarified butter, prepared in small batches.',
+    price: 350.00,
+    stock: 8,
+    status: 'Low Stock',
+    imageUrl: ['/images/mock/product_ghee.jpg'],
+    category: 'Dairy & Eggs',
+    farmerId: 'farm_david',
+    createdAt: '2024-05-20T16:00:00Z',
+    updatedAt: '2024-05-20T16:00:00Z',
+    salesCount: 60,
+    isDeal: false,
+  },
+  {
+    id: 'prod_10',
+    name: 'Freshly Baked Wheat Bread',
+    description: 'Soft and wholesome whole wheat bread, baked every morning. No preservatives.',
+    price: 80.00,
+    stock: 12,
+    status: 'In Stock',
+    imageUrl: ['/images/mock/product_wheat_bread.jpg'],
+    category: 'Baked Goods',
+    farmerId: 'farm_bob',
+    createdAt: '2024-06-05T11:00:00Z',
+    updatedAt: '2024-06-05T11:00:00Z',
+    salesCount: 110,
+    isDeal: false,
+  },
 ];
+
 
 export const addresses: Address[] = [
   {

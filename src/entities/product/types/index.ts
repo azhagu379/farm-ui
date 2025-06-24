@@ -1,8 +1,3 @@
-// src/entities/product/types/index.ts
-
-/**
- * Represents a farm product available for sale.
- */
 export interface Product {
   id: string;
   name: string;
@@ -15,7 +10,11 @@ export interface Product {
   farmerId: string; // Foreign Key to FarmerProfile.id
   createdAt: string; // ISO string date
   updatedAt: string; // ISO string date
+  isDeal?: boolean; // NEW: Flag to indicate if product is part of a deal/offer
+  salesCount?: number; // NEW: Simulate sales count for 'Best Sellers' or popularity
+  // Add other optional fields like weight, unit, tags, etc.
 }
 
-export type ProductCreatePayload = Omit<Product, 'id' | 'status' | 'createdAt' | 'updatedAt'>; // Status might be default 'Pending Approval' on creation
-export type ProductUpdatePayload = Partial<Omit<Product, 'id' | 'farmerId' | 'createdAt' | 'updatedAt'>>; // FarmerId shouldn't be changed on update from frontend
+// Types for Product API payloads (used for forms and mutations)
+export type ProductCreatePayload = Omit<Product, 'id' | 'status' | 'createdAt' | 'updatedAt' | 'salesCount'>; // salesCount typically not set on create
+export type ProductUpdatePayload = Partial<Omit<Product, 'id' | 'farmerId' | 'createdAt' | 'updatedAt'>>;
