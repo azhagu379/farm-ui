@@ -4,7 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { type Product } from "@/entities/product/types";
+import {
+  useCreateProductMutation,
+  useUpdateProductMutation,
+} from "@/entities/product/hooks/use-product-mutation";
+import { useCategoriesQuery } from "@/entities/category/hooks/useCategoriesQuery";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +30,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-
 const formSchema = z.object({
   name: z
     .string()
@@ -41,45 +45,78 @@ const formSchema = z.object({
     .int()
     .min(0, { message: "Stock cannot be negative." }),
   categoryId: z.string({ required_error: "Please select a category." }),
-  // 'images' field can be added here later for file uploads
+  images: z.array(z.string().url()).optional(),
 });
 
-// Mock data for now, this will be replaced by a real API call
-const mockCategories = [
-  { id: "cat_veg", name: "Vegetables" },
-  { id: "cat_fruit", name: "Fruits" },
-  { id: "cat_dairy", name: "Dairy & Eggs" },
-];
+interface AddProductFormProps {
+  initialData?: Product | null;
+}
 
-export function AddProductForm() {
+export function AddProductForm({ initialData }: AddProductFormProps) {
   const router = useRouter();
-  // const createProductMutation = useCreateProductMutation();
-  // const { data: categories, isLoading: isLoadingCategories } = useCategoriesQuery();
+  const createProductMutation = useCreateProductMutation();
+  const updateProductMutation = useUpdateProductMutation();
+  const { data: categories, isLoading: isLoadingCategories } =
+    useCategoriesQuery();
+
+  const isEditMode = !!initialData;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
-      stock: 0,
-    },
+    defaultValues:
+      isEditMode && initialData
+        ? {
+            name: initialData.name,
+            description: initialData.description,
+            price: initialData.price,
+            stock: initialData.stock,
+            categoryId: initialData.category,
+            images: initialData.imageUrl || [],
+          }
+        : {
+            name: "",
+            description: "",
+            price: 0,
+            stock: 0,
+          },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // This is where we will call our API mutation in the future.
-    // For now, we simulate the action.
-    console.log("Form Submitted:", values);
-    toast.success("Product has been submitted for approval!");
-    router.push("/farmer/dashboard"); // Redirect after submission
+    // Find the full category name from the selected categoryId
+    const categoryName =
+      categories?.find((cat) => cat.id === values.categoryId)?.name || "";
+
+    const payload = {
+      ...values,
+      category: categoryName, // Add the missing 'category' property
+    };
+
+    if (isEditMode && initialData) {
+      updateProductMutation.mutate(
+        { id: initialData.id, ...payload },
+        {
+          onSuccess: () => {
+            router.push("/farmer/dashboard");
+          },
+        }
+      );
+    } else {
+      createProductMutation.mutate(payload, {
+        onSuccess: () => {
+          router.push("/farmer/dashboard");
+        },
+      });
+    }
   }
 
+  const isLoading =
+    createProductMutation.isPending || updateProductMutation.isPending;
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
-          control={form.control}
           name="name"
+          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product Name</FormLabel>
@@ -94,44 +131,40 @@ export function AddProductForm() {
           )}
         />
         <FormField
-          control={form.control}
           name="description"
+          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product Description</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Describe your product in detail, including its origin, quality, and unit of measurement (e.g., per kg, per dozen)."
-                  className="resize-none"
-                  {...field}
-                />
+                <Textarea placeholder="Describe your product..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-6">
           <FormField
-            control={form.control}
             name="price"
+            control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Price (in ₹)</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="e.g., 650.00" {...field} />
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormField
-            control={form.control}
             name="stock"
+            control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Stock Quantity</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="e.g., 100" {...field} />
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,19 +172,27 @@ export function AddProductForm() {
           />
         </div>
         <FormField
-          control={form.control}
           name="categoryId"
+          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={isLoadingCategories}
+              >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a product category" />
+                    {isLoadingCategories ? (
+                      "Loading..."
+                    ) : (
+                      <SelectValue placeholder="Select a category" />
+                    )}
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {mockCategories.map((category) => (
+                  {categories?.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}
                     </SelectItem>
@@ -170,10 +211,12 @@ export function AddProductForm() {
           >
             Cancel
           </Button>
-          <Button type="submit" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting
-              ? "Submitting..."
-              : "Submit for Approval"}
+          <Button type="submit" disabled={isLoading}>
+            {isLoading
+              ? "Saving..."
+              : isEditMode
+                ? "Save Changes"
+                : "Submit for Approval"}
           </Button>
         </div>
       </form>

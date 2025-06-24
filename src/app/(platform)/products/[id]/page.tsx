@@ -59,7 +59,7 @@ export default function ProductDetailPage() {
       <div className="grid gap-4 md:gap-10 items-start">
         <div className="grid gap-2">
           <p className="text-sm font-medium text-muted-foreground">
-            {product.farmer}
+            {product.farmerId}
           </p>
           <h1 className="font-bold text-3xl lg:text-4xl">{product.name}</h1>
           <div className="flex items-center gap-4">
@@ -85,7 +85,7 @@ export default function ProductDetailPage() {
           <p className="text-sm leading-loose text-muted-foreground">
             A detailed description of the product will go here. It will
             highlight the freshness, quality, and origin of the{" "}
-            {product.name.toLowerCase()}, straight from {product.farmer}.
+            {product.name.toLowerCase()}, straight from {product.farmerId}.
           </p>
         </div>
         <Separator />

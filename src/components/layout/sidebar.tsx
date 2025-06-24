@@ -114,7 +114,7 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
     >
       <div className="relative flex h-full flex-col">
         {/* Logo and App Name - Consistent with Header Height */}
-        <div className="flex items-center border-b p-3 h-20">
+        <div className="flex items-center p-1 h-20">
           <Link
             href="/"
             className={cn(
@@ -191,7 +191,7 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
         <div
           className={cn(
             "absolute z-20 transition-all duration-300 ease-in-out",
-            "top-20 -translate-y-1/2",
+            "top-15 -translate-y-1/2",
             "-right-1 rounded-l-full"
           )}
         >

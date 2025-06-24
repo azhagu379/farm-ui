@@ -87,7 +87,7 @@ export const products: Product[] = [
     stock: 50,
     status: 'In Stock',
     imageUrl: ['/images/mock/product_tomato_1.jpg', '/images/mock/product_tomato_2.jpg'],
-    category: 'Vegetables', // Matches Category.name
+    category: 'Vegetables',
     farmerId: 'farm_bob',
     createdAt: '2023-04-01T13:00:00Z',
     updatedAt: '2023-04-01T13:00:00Z',
