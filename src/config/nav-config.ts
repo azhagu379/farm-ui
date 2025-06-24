@@ -1,5 +1,5 @@
 
-import { Home, Package, ShoppingCart, Users, Store, Settings, User, Sparkles, Gift,  Leaf, Star, TrendingUp, Compass, ShoppingBag } from 'lucide-react'; 
+import { Home, Package, ShoppingCart, Users, Store, Settings, User, Sparkles, Gift,  Leaf, Star, TrendingUp, Compass, ShoppingBag, ShieldCheck } from 'lucide-react'; 
 
 // Define the type for a navigation link (already updated, just confirming it's here)
 export interface NavLink { 
@@ -83,13 +83,13 @@ export const navConfig: NavSection[] = [
         href: '/cart', // Direct link to cart page
         label: 'My Cart',
         icon: ShoppingCart, // Or 'ShoppingBag'
-        roles: ['BUYER', 'FARMER', 'ADMIN'], // Anyone with a cart, once logged in
+        roles: ['BUYER', 'FARMER'], // Anyone with a cart, once logged in
       },
       {
         href: '/wishlist', // New Idea: Personal wishlist
         label: 'My Wishlist',
         icon: Star, // Or 'Heart'
-        roles: ['BUYER', 'FARMER', 'ADMIN'],
+        roles: ['BUYER', 'FARMER',],
       },
     ]
   },
@@ -108,6 +108,12 @@ export const navConfig: NavSection[] = [
         icon: Users, 
         roles: ['ADMIN'], 
       }, 
+      {
+        href: '/admin/product-approvals',
+        label: 'Product Approvals',
+        icon: ShieldCheck, // A fitting icon for approvals
+        roles: ['ADMIN'],
+      },
     ], 
   }, 
   { 

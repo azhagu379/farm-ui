@@ -144,7 +144,20 @@ export const products: Product[] = [
     createdAt: '2024-02-15T10:00:00Z',
     updatedAt: '2024-02-15T10:00:00Z',
   },
-  // Add more products as needed
+   {
+    id: 'prod_6',
+    name: 'Farm Fresh Milk (5 Liter)',
+    description: 'Pure, unpasteurized A2 cow\'s milk from our dairy farm. Delivered fresh daily. Priced per liter.',
+    price: 160.00,
+    stock: 10,
+    status: 'Pending Approval',
+    imageUrl: ['/images/mock/product_milk_1.jpg'],
+    category: 'Dairy & Eggs',
+    farmerId: 'farm_david',
+    createdAt: '2024-02-15T10:00:00Z',
+    updatedAt: '2024-02-15T10:00:00Z',
+  },
+  
 ];
 
 export const addresses: Address[] = [
