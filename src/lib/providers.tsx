@@ -5,11 +5,6 @@ import { ThemeProvider as NextThemesProvider, ThemeProviderProps } from 'next-th
 import { SessionProvider } from 'next-auth/react'; // Import SessionProvider
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-
-/**
- * A provider component that wraps the application to provide theme context.
- * It uses the 'next-themes' library to handle theme switching (light, dark, system).
- */
 const queryClient = new QueryClient();
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
@@ -19,7 +14,6 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
     </QueryClientProvider>
   );
 }
-// NEW: AuthProvider
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   return <SessionProvider>{children}</SessionProvider>;
 }

@@ -60,11 +60,11 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
 
   const renderSection = (section: NavSection, sectionKey: string) => (
     <div key={sectionKey} className="w-full">
-      {section.label && isSidebarOpen && (
+      {/* {section.label && isSidebarOpen && (
         <h3 className="mb-2 mt-4 px-3 text-xs font-bold uppercase text-muted-foreground">
           {section.label}
         </h3>
-      )}
+      )} */}
       {section.links.map((link) =>
         !isSidebarOpen ? (
           <Tooltip key={link.href}>
@@ -167,7 +167,7 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
         </div>
 
         {/* Bottom Navigation Links (Account, Help & Info) */}
-        <div className="border-t border-border/50 p-2 mt-auto">
+        <div className="w-full mt-4 pt-4 border-t border-border/50">
           <TooltipProvider delayDuration={0}>
             <div className="flex w-full flex-col items-start gap-1 px-2">
               {/* Account Section */}
@@ -191,7 +191,7 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
         <div
           className={cn(
             "absolute z-20 transition-all duration-300 ease-in-out",
-            "top-15 -translate-y-1/2",
+            "top-20 -translate-y-1/2",
             "-right-1 rounded-l-full"
           )}
         >
@@ -199,8 +199,8 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
             onClick={toggleSidebar}
             variant="ghost"
             className={cn(
-              "h-7 transition-all duration-300 ease-in-out",
-              "w-5 rounded-l-full rounded-r-none bg-background shadow-md hover:bg-accent text-primary hover:text-primary" // Half-circle/pill when closed
+              "h-6 transition-all duration-300 ease-in-out",
+              "w-3 rounded-l-full rounded-r-none bg-background shadow-md hover:bg-accent text-primary hover:text-primary" // Half-circle/pill when closed
             )}
           >
             <ChevronsLeft

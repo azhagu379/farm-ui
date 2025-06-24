@@ -1,115 +1,290 @@
 
-import { Order } from '@/entities/order/types';
 import { Product } from '@/entities/product/types';
+import { Address } from '@/entities/address/types';
+import { Order, OrderItem } from '@/entities/order/types'; // Assuming OrderItem is defined within order/types
+import { User } from '@/entities/user/types';
+import { FarmerProfile } from '@/entities/farmer/types';
+import { Category } from '@/entities/category/types';
 
-   export const users = [
-      {
-        id: '1',
-        name: 'Test Buyer',
-        email: 'buyer@example.com',
-        password: 'password123',
-        role: 'BUYER',
-      },
-      {
-        id: '2',
-        name: 'Test Farmer',
-        email: 'farmer@example.com',
-        password: 'password123',
-        role: 'FARMER',
-      },
-    ];
+// --- Dummy Data Arrays (Simulating database tables) ---
+// These arrays are mutable (`const`) because your Next.js API routes will modify them
+// for POST, PUT, and DEconstE operations.
 
+export const users: User[] = [
+  {
+    id: 'user_buyer_1',
+    name: 'Alice Buyer',
+    email: 'buyer@example.com',
+    password: 'password123', // In a real app, this would be a hashed password
+    role: 'BUYER',
+    createdAt: '2023-01-15T10:00:00Z',
+    updatedAt: '2023-01-15T10:00:00Z',
+  },
+  {
+    id: 'user_farmer_1',
+    name: 'Bob Farmer',
+    email: 'farmer@example.com',
+    password: 'password123',
+    role: 'FARMER',
+    createdAt: '2023-02-01T11:00:00Z',
+    updatedAt: '2023-02-01T11:00:00Z',
+  },
+  {
+    id: 'user_admin_1',
+    name: 'Charlie Admin',
+    email: 'admin@example.com',
+    password: 'password123',
+    role: 'ADMIN',
+    createdAt: '2023-03-10T12:00:00Z',
+    updatedAt: '2023-03-10T12:00:00Z',
+  },
+  {
+    id: 'user_farmer_2',
+    name: 'David Harvest',
+    email: 'farmer2@example.com',
+    password: 'password123',
+    role: 'FARMER',
+    createdAt: '2024-01-05T09:00:00Z',
+    updatedAt: '2024-01-05T09:00:00Z',
+  },
+];
+
+export const farmerProfiles: FarmerProfile[] = [
+  {
+    id: 'farm_bob',
+    userId: 'user_farmer_1',
+    farmName: 'Bob\'s Organic Harvest',
+    location: 'Chennai, Tamil Nadu',
+    bio: 'Sustainable farming with a passion for fresh, organic produce delivered straight from our fields.',
+    certifications: ['Organic Certified (TN-ORG-001)'],
+    profileImageUrl: '/images/mock/farm_bob.jpg',
+    createdAt: '2023-02-01T11:00:00Z',
+    updatedAt: '2023-02-01T11:00:00Z',
+  },
+  {
+    id: 'farm_david',
+    userId: 'user_farmer_2',
+    farmName: 'David\'s Dairy Delights',
+    location: 'Kancheepuram, Tamil Nadu',
+    bio: 'Farm-fresh milk and eggs from happy, free-range animals. Ethical and delicious.',
+    certifications: [],
+    profileImageUrl: '/images/mock/farm_david.jpg',
+    createdAt: '2024-01-05T09:00:00Z',
+    updatedAt: '2024-01-05T09:00:00Z',
+  },
+];
+
+export const categories: Category[] = [
+  { id: 'cat_veg', name: 'Vegetables', slug: 'vegetables', description: 'Freshly harvested vegetables direct from farms.', imageUrl: '/images/mock/category_veg.jpg', createdAt: '2023-01-01T08:00:00Z', updatedAt: '2023-01-01T08:00:00Z' },
+  { id: 'cat_fruit', name: 'Fruits', slug: 'fruits', description: 'Sweet and juicy fruits, locally sourced and seasonal.', imageUrl: '/images/mock/category_fruit.jpg', createdAt: '2023-01-01T08:00:00Z', updatedAt: '2023-01-01T08:00:00Z' },
+  { id: 'cat_dairy', name: 'Dairy & Eggs', slug: 'dairy-eggs', description: 'Farm fresh dairy products and free-range eggs.', imageUrl: '/images/mock/category_dairy.jpg', createdAt: '2023-01-01T08:00:00Z', updatedAt: '2023-01-01T08:00:00Z' },
+  { id: 'cat_grains', name: 'Grains & Pulses', slug: 'grains-pulses', description: 'Wholesome grains and pulses for a healthy diet.', imageUrl: '/images/mock/category_grains.jpg', createdAt: '2023-01-01T08:00:00Z', updatedAt: '2023-01-01T08:00:00Z' },
+  { id: 'cat_baked', name: 'Baked Goods', slug: 'baked-goods', description: 'Artisan breads and fresh baked delights.', imageUrl: '/images/mock/category_baked.jpg', createdAt: '2023-01-01T08:00:00Z', updatedAt: '2023-01-01T08:00:00Z' },
+];
 
 export const products: Product[] = [
   {
-    id: '1',
-    name: 'Organic Tomatoes (Tamatar)',
-    farmer: 'Nilgiri Organics',
-    price: 80, // Price per kg
+    id: 'prod_1',
+    name: 'Organic Heirloom Tomatoes',
+    description: 'Sweet and juicy heirloom tomatoes, perfect for salads and sauces. Grown with care on our sustainable farm. Priced per kg.',
+    price: 120.00,
+    stock: 50,
     status: 'In Stock',
+    imageUrl: ['/images/mock/product_tomato_1.jpg', '/images/mock/product_tomato_2.jpg'],
+    category: 'Vegetables', // Matches Category.name
+    farmerId: 'farm_bob',
+    createdAt: '2023-04-01T13:00:00Z',
+    updatedAt: '2023-04-01T13:00:00Z',
   },
   {
-    id: '2',
-    name: 'Fresh Alphonso Mangoes',
-    farmer: 'Ratnagiri Farms',
-    price: 650, // Price per dozen
+    id: 'prod_2',
+    name: 'Fresh Farm Eggs (Dozen)',
+    description: 'Pasture-raised, free-range eggs with rich yolks. Our hens roam freely, ensuring quality and taste. Priced per dozen.',
+    price: 90.00,
+    stock: 20,
     status: 'In Stock',
+    imageUrl: ['/images/mock/product_eggs_1.jpg'],
+    category: 'Dairy & Eggs',
+    farmerId: 'farm_david',
+    createdAt: '2023-05-10T09:00:00Z',
+    updatedAt: '2023-05-10T09:00:00Z',
   },
   {
-    id: '3',
-    name: 'Country Eggs (Naatu Muttai)',
-    farmer: 'Kovai Poultry',
-    price: 120, // Price per dozen
+    id: 'prod_3',
+    name: 'Artisan Sourdough Loaf',
+    description: 'Hand-kneaded, slow-fermented sourdough loaf, baked fresh daily with organic flour. Perfect for sandwiches or toast.',
+    price: 150.00,
+    stock: 10,
     status: 'Low Stock',
+    imageUrl: ['/images/mock/product_sourdough_1.jpg'],
+    category: 'Baked Goods',
+    farmerId: 'farm_bob',
+    createdAt: '2023-06-01T15:00:00Z',
+    updatedAt: '2023-06-01T15:00:00Z',
   },
   {
-    id: '4',
-    name: 'Paneer (Freshly Made)',
-    farmer: 'Amritsar Dairy Co.',
-    price: 150, // Price per 200g
-    status: 'In Stock',
-  },
-  {
-    id: '5',
-    name: 'Basmati Rice (Extra Long Grain)',
-    farmer: 'Himalayan Fields',
-    price: 180, // Price per kg
+    id: 'prod_4',
+    name: 'Organic Broccoli Florets',
+    description: 'Freshly cut organic broccoli florets, vibrant and healthy. Ideal for steaming or stir-frying. Priced per 500g.',
+    price: 80.00,
+    stock: 0,
     status: 'Out of Stock',
+    imageUrl: ['/images/mock/product_broccoli_1.jpg'],
+    category: 'Vegetables',
+    farmerId: 'farm_bob',
+    createdAt: '2023-07-20T11:00:00Z',
+    updatedAt: '2023-07-20T11:00:00Z',
   },
   {
-    id: '6',
-    name: 'Tender Coconut Water',
-    farmer: 'Kerala Groves',
-    price: 40, // Price per piece
+    id: 'prod_5',
+    name: 'Farm Fresh Milk (1 Liter)',
+    description: 'Pure, unpasteurized A2 cow\'s milk from our dairy farm. Delivered fresh daily. Priced per liter.',
+    price: 60.00,
+    stock: 30,
     status: 'In Stock',
+    imageUrl: ['/images/mock/product_milk_1.jpg'],
+    category: 'Dairy & Eggs',
+    farmerId: 'farm_david',
+    createdAt: '2024-02-15T10:00:00Z',
+    updatedAt: '2024-02-15T10:00:00Z',
   },
   {
-    id: '7',
-    name: 'Farm-Fresh Spinach (Palak)',
-    farmer: 'Nilgiri Organics',
-    price: 30, // Price per bunch
+    id: 'prod_6',
+    name: 'Sprouted Moong Dal',
+    description: 'Freshly sprouted green gram (moong dal), ready to use in salads or curries. Packed with nutrients.',
+    price: 70.00,
+    stock: 25,
     status: 'In Stock',
+    imageUrl: ['/images/mock/product_moong_dal.jpg'],
+    category: 'Grains & Pulses',
+    farmerId: 'farm_bob', // Example: Another product from Bob
+    createdAt: '2024-03-01T08:00:00Z',
+    updatedAt: '2024-03-01T08:00:00Z',
   },
   {
-    id: '8',
-    name: 'A2 Desi Cow Milk',
-    farmer: 'Amritsar Dairy Co.',
-    price: 75, // Price per litre
+    id: 'prod_7',
+    name: 'Organic Bananas (Dwarf Cavendish)',
+    description: 'Sweet and creamy organic bananas, perfect for snacks or smoothies. Grown without pesticides.',
+    price: 45.00,
+    stock: 40,
+    status: 'In Stock',
+    imageUrl: ['/images/mock/product_banana.jpg'],
+    category: 'Fruits',
+    farmerId: 'farm_bob',
+    createdAt: '2024-04-10T14:00:00Z',
+    updatedAt: '2024-04-10T14:00:00Z',
+  },
+  {
+    id: 'prod_8',
+    name: 'Farm Fresh Paneer (200g)',
+    description: 'Soft and delicious paneer, made fresh daily from cow\'s milk. Ideal for Indian curries.',
+    price: 150.00,
+    stock: 15,
+    status: 'In Stock',
+    imageUrl: ['/images/mock/product_paneer.jpg'],
+    category: 'Dairy & Eggs',
+    farmerId: 'farm_david',
+    createdAt: '2024-05-01T09:00:00Z',
+    updatedAt: '2024-05-01T09:00:00Z',
+  },
+  {
+    id: 'prod_9',
+    name: 'Homemade Ghee (500ml)',
+    description: 'Pure, aromatic ghee made from clarified butter, prepared in small batches.',
+    price: 350.00,
+    stock: 8,
     status: 'Low Stock',
+    imageUrl: ['/images/mock/product_ghee.jpg'],
+    category: 'Dairy & Eggs',
+    farmerId: 'farm_david',
+    createdAt: '2024-05-20T16:00:00Z',
+    updatedAt: '2024-05-20T16:00:00Z',
   },
   {
-    id: '9',
-    name: 'Himalayan Apples',
-    farmer: 'Himalayan Fields',
-    price: 220, // Price per kg
+    id: 'prod_10',
+    name: 'Freshly Baked Wheat Bread',
+    description: 'Soft and wholesome whole wheat bread, baked every morning. No preservatives.',
+    price: 80.00,
+    stock: 12,
     status: 'In Stock',
+    imageUrl: ['/images/mock/product_wheat_bread.jpg'],
+    category: 'Baked Goods',
+    farmerId: 'farm_bob',
+    createdAt: '2024-06-05T11:00:00Z',
+    updatedAt: '2024-06-05T11:00:00Z',
   },
+];
+
+
+export const addresses: Address[] = [
   {
-    id: '10',
-    name: 'Organic Ginger (Adrak)',
-    farmer: 'Kerala Groves',
-    price: 50, // Price per 250g
-    status: 'Out of Stock',
+    id: 'addr_alice_1',
+    userId: 'user_buyer_1',
+    fullName: 'Alice Buyer',
+    street: '123 Farmview Lane',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    zipCode: '600001',
+    country: 'India',
+    phone: '9876543210',
+    isDefault: true,
+    createdAt: '2023-01-15T10:00:00Z',
+    updatedAt: '2023-01-15T10:00:00Z',
   },
 ];
 
 export const orders: Order[] = [
   {
-    id: 'ORD001',
-    date: '2024-06-20',
+    id: 'order_1',
+    userId: 'user_buyer_1',
+    orderDate: '2024-06-20T10:00:00Z', // Recent order
+    totalAmount: 210.00,
     status: 'Delivered',
-    total: 300,
+    shippingAddressId: 'addr_alice_1',
+    paymentStatus: 'Paid',
+    trackingNumber: 'TRACK123456789',
+    createdAt: '2024-06-20T10:00:00Z',
+    updatedAt: '2024-06-22T15:00:00Z',
   },
   {
-    id: 'ORD002',
-    date: '2024-06-18',
-    status: 'Shipped',
-    total: 120,
+    id: 'order_2',
+    userId: 'user_buyer_1',
+    orderDate: '2024-06-23T14:30:00Z', // Pending order
+    totalAmount: 120.00,
+    status: 'Pending',
+    shippingAddressId: 'addr_alice_1',
+    paymentStatus: 'Pending',
+    createdAt: '2024-06-23T14:30:00Z',
+    updatedAt: '2024-06-23T14:30:00Z',
+  },
+];
+
+export const orderItems: OrderItem[] = [
+  {
+    id: 'oi_1_p1',
+    orderId: 'order_1',
+    productId: 'prod_1',
+    productName: 'Organic Heirloom Tomatoes',
+    productPrice: 120.00,
+    quantity: 1,
+    subtotal: 120.00,
   },
   {
-    id: 'ORD003',
-    date: '2024-06-15',
-    status: 'Delivered',
-    total: 650,
+    id: 'oi_1_p2',
+    orderId: 'order_1',
+    productId: 'prod_2',
+    productName: 'Fresh Farm Eggs (Dozen)',
+    productPrice: 90.00,
+    quantity: 1,
+    subtotal: 90.00,
+  },
+  {
+    id: 'oi_2_p1',
+    orderId: 'order_2',
+    productId: 'prod_1',
+    productName: 'Organic Heirloom Tomatoes',
+    productPrice: 120.00,
+    quantity: 1,
+    subtotal: 120.00,
   },
 ];
