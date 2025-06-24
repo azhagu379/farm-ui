@@ -4,9 +4,11 @@ import { products } from '@/lib/placeholder-data';
 // This function handles updating a product
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  // Await the resolved params object
+  const { id } = await context.params;
+
   const body = await request.json();
   const productIndex = products.findIndex((p) => p.id === id);
 
@@ -24,9 +26,11 @@ export async function PUT(
 // This function handles deleting a product
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  // Await the resolved params object
+  const { id } = await context.params;
+
   const productIndex = products.findIndex((p) => p.id === id);
 
   if (productIndex === -1) {

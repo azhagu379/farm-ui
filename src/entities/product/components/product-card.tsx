@@ -44,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <CardTitle className="mt-2 text-lg font-semibold leading-tight group-hover:text-primary">
             {product.name}
           </CardTitle>
-          <p className="text-sm text-muted-foreground mt-1">{product.farmer}</p>
+          <p className="text-sm text-muted-foreground mt-1">{product.farmerId}</p>
         </CardContent>
         <CardFooter className="p-4 pt-0">
           <p className="text-lg font-bold text-primary">

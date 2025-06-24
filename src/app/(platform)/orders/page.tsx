@@ -60,7 +60,7 @@ export default function OrdersPage() {
             {orders?.map((order) => (
               <TableRow key={order.id}>
                 <TableCell className="font-medium">{order.id}</TableCell>
-                <TableCell>{order.date}</TableCell>
+                <TableCell>{order.orderDate}</TableCell>
                 <TableCell>
                   <Badge
                     variant={
@@ -71,7 +71,7 @@ export default function OrdersPage() {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  ₹{order.total.toFixed(2)}
+                  ₹{order.totalAmount.toFixed(2)}
                 </TableCell>
               </TableRow>
             ))}

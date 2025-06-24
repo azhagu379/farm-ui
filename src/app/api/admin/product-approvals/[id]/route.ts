@@ -4,9 +4,11 @@ import { products } from '@/lib/placeholder-data';
 // This function handles updating a product's status (approving/rejecting)
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  // Await the resolved params object
+  const { id } = await context.params;
+
   const { status } = await request.json(); // Expecting { status: 'ACTIVE' } or { status: 'REJECTED' }
 
   const productIndex = products.findIndex((p) => p.id === id);
