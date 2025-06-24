@@ -103,7 +103,6 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
           </Link>
         </div>
 
-        {/* Top Navigation Links - This section will grow and push bottom links down */}
         <div className="flex-1 overflow-y-auto py-4">
           <TooltipProvider delayDuration={0}>
             <div className="flex w-full flex-col items-start gap-2 px-2">
@@ -138,7 +137,6 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
 
         {/* Bottom Navigation Links */}
         <div className="border-t p-2">
-          {" "}
           {/* Added border-t for separation */}
           <TooltipProvider delayDuration={0}>
             <div className="flex w-full flex-col items-start gap-2 px-2">
@@ -174,17 +172,21 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
         {/* Sidebar Toggle Button */}
         <div
           className={cn(
-            "absolute top-[18px] z-20 transition-all duration-300 ease-in-out",
-            isSidebarOpen ? "right-2" : "-right-3"
+            "absolute z-20 transition-all duration-300 ease-in-out",
+            "top-15 -translate-y-1/2",
+            "-right-1 rounded-l-full"
           )}
         >
           <Button
             onClick={toggleSidebar}
-            variant="outline"
-            className="h-7 w-7 rounded-full bg-background shadow-md hover:bg-accent text-primary hover:text-primary"
+            variant="ghost"
+            className={cn(
+              "h-7 transition-all duration-300 ease-in-out",
+              "w-5 rounded-l-full rounded-r-none bg-background shadow-md hover:bg-accent text-primary hover:text-primary" // Half-circle/pill when closed
+            )}
           >
             <ChevronsLeft
-              className={cn("h-3.5 w-3.5 transition-transform duration-300", {
+              className={cn("h-4 w-4 transition-transform duration-300", {
                 "rotate-180": !isSidebarOpen,
               })}
             />
