@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Tractor, ChevronsLeft } from "lucide-react";
+import {  ChevronsLeft, Sprout } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -91,14 +91,14 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
             )}
           >
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary md:h-8 md:w-8">
-              <Tractor className="h-4 w-4 transition-all group-hover:scale-110" />
+              <Sprout className="h-4 w-4 transition-all group-hover:scale-110" />
             </div>
             <span
               className={cn("whitespace-nowrap text-sm", {
                 "sr-only": !isSidebarOpen,
               })}
             >
-              Farm E-Commerce
+              FarmLink
             </span>
           </Link>
         </div>

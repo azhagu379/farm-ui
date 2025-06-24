@@ -4,14 +4,14 @@ import {
   Package,
   PanelLeft,
   ShoppingCart,
-  Tractor,
+  Sprout,
   Users,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/common/theme-toggle";
-import { UserNav } from "@/components/common/user-nav"; // Import UserNav
 import { CartButton } from "@/features/cart/store/components/cart-button";
+import { ThemeToggle } from "../common/theme-toggle";
+import { UserNav } from "../common/user-nav";
 
 const mobileNavLinks = [
   { href: "/", label: "Dashboard", icon: Home },
@@ -22,8 +22,8 @@ const mobileNavLinks = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-      {/* Mobile Menu Button (remains unchanged) */}
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
+      {/* Mobile Menu Button */}
       <Sheet>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline" className="sm:hidden">
@@ -35,10 +35,10 @@ export function Header() {
           <nav className="grid gap-6 text-lg font-medium">
             <Link
               href="/"
-              className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+              className="group flex h-10 w-fit shrink-0 items-center justify-center gap-2 rounded-lg bg-primary/10 px-3 py-2 text-primary font-semibold md:text-base transition-colors hover:text-primary-foreground hover:bg-primary"
             >
-              <Tractor className="h-5 w-5 transition-all group-hover:scale-110" />
-              <span className="sr-only">Farm E-Commerce</span>
+              <Sprout className="h-5 w-5 transition-all group-hover:scale-110" />
+              <span className="whitespace-nowrap">FarmLink</span>
             </Link>
             {mobileNavLinks.map((link) => (
               <Link
@@ -54,9 +54,25 @@ export function Header() {
         </SheetContent>
       </Sheet>
 
-      <div className="ml-auto flex items-center gap-4">
+      {/* Desktop App Name / Logo (centered on larger screens) */}
+      <div className="absolute left-1/2 -translate-x-1/2 hidden sm:flex items-center gap-3">
+        <Link
+          href="/"
+          className="group flex items-center gap-2 font-semibold text-3xl text-primary tracking-tight"
+        >
+          <Sprout className="h-9 w-9 transition-all group-hover:scale-110" />
+          <span className="hidden md:inline-block">FarmLink</span>
+        </Link>
+      </div>
+
+      {/* Main Navigation (Optional: if you want desktop nav in header) */}
+      {/* You've left this empty, which is fine if your sidebar is the primary navigation. */}
+      <nav className="hidden md:flex ml-4 space-x-6 text-sm font-medium"></nav>
+
+      {/* Right-aligned items */}
+      <div className="ml-auto flex items-center gap-3 md:gap-4">
+        <CartButton />
         <ThemeToggle />
-        <CartButton /> {/* Add the CartButton here */}
         <UserNav />
       </div>
     </header>
