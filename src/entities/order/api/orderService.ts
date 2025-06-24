@@ -1,4 +1,4 @@
-import { api } from '@/app/api';
+import { axiosInstance } from '@/lib/axios';
 import { type Order } from '../types';
 import { type CartItem } from '@/features/cart/store/useCartStore';
 
@@ -20,12 +20,12 @@ export interface CreateOrderPayload {
 
 // Fetch all orders for the current user
 export const getOrders = async (): Promise<Order[]> => {
-  const response = await api.get('/api/orders');
+  const response = await axiosInstance.get('/orders');
   return response.data;
 };
 
 // Create a new order
 export const createOrder = async (payload: CreateOrderPayload): Promise<Order> => {
-  const response = await api.post('/api/orders', payload);
+  const response = await axiosInstance.post('/orders', payload);
   return response.data;
 };

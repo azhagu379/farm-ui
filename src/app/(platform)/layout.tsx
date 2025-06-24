@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
-import { cn } from "@/lib";
+import { cn } from "@/lib/utils";
 
 /**
  * The main layout for the authenticated part of the application.

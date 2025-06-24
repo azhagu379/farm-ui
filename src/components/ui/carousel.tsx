@@ -4,7 +4,7 @@ import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
-import { cn } from "@/lib";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 
@@ -95,8 +95,8 @@ function Carousel({
   React.useEffect(() => {
     if (!api) return;
     onSelect(api);
-    api.on("reInit", onSelect);
-    api.on("select", onSelect);
+    axiosInstance.on("reInit", onSelect);
+    axiosInstance.on("select", onSelect);
 
     return () => {
       api?.off("select", onSelect);

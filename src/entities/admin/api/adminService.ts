@@ -1,14 +1,14 @@
-import { api } from '@/app/api';
+import { axiosInstance } from '@/lib/axios';
 import { type PlatformStats } from '../types';
 import { Product } from '@/entities/product/types';
 import { User } from '@/entities/user/types';
 
     export const getPlatformStats = async (): Promise<PlatformStats> => {
-      const response = await api.get('/api/admin/stats');
+      const response = await axiosInstance.get('/admin/stats');
       return response.data;
     };
  export const getPendingProducts = async (): Promise<Product[]> => {
-      const response = await api.get('/api/admin/product-approvals');
+      const response = await axiosInstance.get('/admin/product-approvals');
       return response.data;
     };
 
@@ -20,13 +20,13 @@ import { User } from '@/entities/user/types';
       productId: string;
       status: Product['status'];
     }): Promise<Product> => {
-      const response = await api.put(`/api/admin/product-approvals/${productId}`, { status });
+      const response = await axiosInstance.put(`/admin/product-approvals/${productId}`, { status });
       return response.data;
     };
     
 
     export const getAllUsers = async (): Promise<User[]> => {
-      const response = await api.get('/api/admin/users');
+      const response = await axiosInstance.get('/admin/users');
       return response.data;
     };
 
@@ -37,7 +37,7 @@ import { User } from '@/entities/user/types';
       userId: string;
       role: User['role'];
     }): Promise<User> => {
-      const response = await api.put(`/api/admin/users/${userId}`, { role });
+      const response = await axiosInstance.put(`/admin/users/${userId}`, { role });
       return response.data;
     };
     

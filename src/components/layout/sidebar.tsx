@@ -9,7 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib"; // Your specified path
+import { cn } from "@/lib/utils"; // Your specified path
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { navConfig, NavLink, NavSection } from "@/config/nav-config";
