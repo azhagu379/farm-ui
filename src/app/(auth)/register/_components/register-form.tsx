@@ -49,21 +49,7 @@ export function RegisterForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setError(null);
     console.log("Simulating registration with:", values);
-    // In a real application, you would make an API call here to register the user.
-    // For example:
-    // const response = await fetch('/api/register', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(values),
-    // });
-    // const data = await response.json();
-    // if (!response.ok) {
-    //   setError(data.message || 'Registration failed.');
-    // } else {
-    //   router.push('/login'); // Redirect to login page on successful registration
-    // }
 
-    // For now, we'll just simulate a successful registration.
     alert("Registration successful! You can now log in.");
     router.push("/login");
   }
