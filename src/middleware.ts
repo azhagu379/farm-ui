@@ -1,12 +1,14 @@
+// src/middleware.ts
+
 import { withAuth, type NextRequestWithAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
 // Define role-based default dashboards.
-// A BUYER's dashboard is the homepage '/'.
+// A BUYER's default dashboard is the homepage '/', as confirmed.
 const roleBasedDashboards: Record<string, string> = {
-  BUYER: '/',
-  FARMER: '/farmer/dashboard',
-  ADMIN: '/admin/dashboard',
+  BUYER: '/',                // Buyer's dashboard is the root homepage itself
+  FARMER: '/farmer/dashboard', // Farmer's specific dashboard
+  ADMIN: '/admin/dashboard',   // Admin's specific dashboard
 };
 
 export default withAuth(
@@ -16,22 +18,23 @@ export default withAuth(
     const { pathname } = req.nextUrl;
     const url = req.nextUrl.clone(); // Clone the URL for potential redirection
 
-    // --- Part 1: Redirect Authenticated Users from Auth Pages ---
-    // If a user is logged in, redirect them away from login/register pages.
-    if (token && (pathname === '/login' || pathname === '/register')) {
-      const userRole = (token.role as string) || 'BUYER';
-      const redirectTo = roleBasedDashboards[userRole] || '/';
-
-      if (pathname !== redirectTo) {
+    // --- Part 1: Redirect Authenticated Users from Auth Pages AND Root Page ---
+    // If a user is logged in, redirect them away from login/register/root pages to their dashboard.
+    if (token) {
+      const userRole = (token.role as string) || 'BUYER'; // Default to BUYER if role is somehow missing
+      const redirectTo = roleBasedDashboards[userRole] || '/'; // Fallback to '/' if dashboard not found for role
+      if ((pathname === '/' || pathname === '/login' || pathname === '/register') && pathname !== redirectTo) {
         url.pathname = redirectTo;
         return NextResponse.redirect(url);
       }
     }
 
-    // --- Part 2: Role-Based Access Control for Protected Routes ---
+  
     const requiredRoles: Record<string, string[]> = {
-      '/farmer': ['FARMER', 'ADMIN'], // Admins can access farmer routes
-      '/admin': ['ADMIN'],
+      '/farmer': ['FARMER', 'ADMIN'], 
+      '/admin': ['ADMIN'],          
+      // Add other paths here if they need specific role restrictions beyond just being authenticated.
+      // E.g., '/analytics': ['ADMIN', 'MANAGER']
     };
 
     const protectedPath = Object.keys(requiredRoles).find((path) =>
@@ -40,22 +43,21 @@ export default withAuth(
 
     if (protectedPath) {
       const allowedRoles = requiredRoles[protectedPath];
+    
       if (!token?.role || !allowedRoles.includes(token.role as string)) {
         url.pathname = '/unauthorized';
         return NextResponse.redirect(url);
       }
     }
 
-    // Allow the request to proceed if no specific rules matched.
+   
     return NextResponse.next();
   },
   {
+  
     callbacks: {
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
-
-        // --- Part 3: Define Publicly Accessible Routes ---
-        // These paths are always accessible, regardless of login status.
         const publicPaths = [
           '/login',
           '/register',
@@ -65,15 +67,11 @@ export default withAuth(
           '/terms',
           '/privacy',
           '/coming-soon',
+          '/', // The root homepage is also publicly accessible
         ];
 
-        // The product browsing pages are public.
+        // Product Browse pages are public.
         if (pathname === '/products' || pathname.startsWith('/products/')) {
-          return true;
-        }
-
-        // The homepage is public.
-        if (pathname === '/') {
           return true;
         }
 
@@ -82,26 +80,27 @@ export default withAuth(
           return true;
         }
 
-        // For all other routes caught by the matcher, the user must be logged in.
+        // For all other routes caught by the matcher (that are not explicitly public),
+        // authorization requires a token (i.e., the user must be authenticated).
         return !!token;
       },
     },
+    // Specify custom pages for redirects if authorization fails (user is not logged in).
     pages: {
-      signIn: '/login', // Redirect unauthenticated users to this page.
+      signIn: '/login', // Redirect unauthenticated users to this custom login page
     },
   }
 );
 
 // This config specifies which routes the middleware should run on.
+// The `matcher` uses regex to match paths.
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.svg (favicon file)
-     */
+    // Match all request paths except for the ones starting with:
+    // - /api (Next.js API routes, handled separately)
+    // - /_next/static (static files)
+    // - /_next/image (image optimization files)
+    // - /favicon.svg (favicon file)
     '/((?!api|_next/static|_next/image|favicon.svg).*)',
   ],
 };
