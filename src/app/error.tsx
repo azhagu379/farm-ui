@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { Tractor, AlertTriangle } from "lucide-react";
-import { Button } from "@/shared/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export default function Error({
   error,

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/features/cart/store/useCartStore";
-import { Button } from "@/shared/components/ui/button";
+import { Button } from "@/components/ui/button";
 // import { Input } from "@/shared/components/ui/input";
 import {
   Table,
@@ -12,16 +12,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/shared/components/ui/table";
+} from "@/components/ui/table";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/shared/components/ui/card";
+} from "@/components/ui/card";
 import { Minus, Plus, Trash2, ShoppingCart } from "lucide-react";
-import { Separator } from "@/shared/components/ui/separator";
+import { Separator } from "@/components/ui/separator";
 
 export function CartContents() {
   const { items, removeItem, updateItemQuantity } = useCartStore();

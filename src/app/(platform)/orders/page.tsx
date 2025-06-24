@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shared/components/ui/card";
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -15,8 +15,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/shared/components/ui/table";
-import { Badge } from "@/shared/components/ui/badge";
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { LoaderCircle, AlertTriangle } from "lucide-react";
 
 export default function OrdersPage() {

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Tractor, Construction } from "lucide-react";
-import { Button } from "@/shared/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export default function ComingSoonPage() {
   return (

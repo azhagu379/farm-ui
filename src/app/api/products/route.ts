@@ -1,4 +1,4 @@
-import { products } from '@/shared/lib/placeholder-data';
+import { products } from '@/lib/placeholder-data';
 import { NextResponse } from 'next/server';
 
 // This is mock data that simulates what our database would return.

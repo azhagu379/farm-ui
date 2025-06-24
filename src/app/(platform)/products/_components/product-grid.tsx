@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useProductsQuery } from '@/entities/product/hooks/useProductsQuery';
-import { ProductCard } from '@/entities/product/components/product-card';
-import { LoaderCircle, AlertTriangle } from 'lucide-react';
+import { useProductsQuery } from "@/entities/product/hooks/useProductsQuery";
+import { ProductCard } from "@/entities/product/components/product-card";
+import { LoaderCircle, AlertTriangle } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -11,7 +11,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/shared/components/ui/pagination';
+} from "@/components/ui/pagination";
 
 export function ProductGrid() {
   const { data: products, isLoading, isError } = useProductsQuery();

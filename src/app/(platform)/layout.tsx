@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Sidebar } from "@/shared/components/layout/sidebar";
-import { Header } from "@/shared/components/layout/header";
-import { cn } from "@/shared/lib";
+import { Sidebar } from "@/components/layout/sidebar";
+import { Header } from "@/components/layout/header";
+import { cn } from "@/lib";
 
 /**
  * The main layout for the authenticated part of the application.
@@ -30,9 +30,7 @@ export default function PlatformLayout({
         )}
       >
         <Header />
-        <main className="flex-1 p-4 sm:px-6 sm:py-6">
-          {children}
-        </main>
+        <main className="flex-1 p-4 sm:px-6 sm:py-6">{children}</main>
       </div>
     </div>
   );

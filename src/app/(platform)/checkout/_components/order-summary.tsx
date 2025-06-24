@@ -1,14 +1,9 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useCartStore } from '@/features/cart/store/useCartStore';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/shared/components/ui/card';
-import { Separator } from '@/shared/components/ui/separator';
+import Image from "next/image";
+import { useCartStore } from "@/features/cart/store/useCartStore";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 export function OrderSummary() {
   const { items } = useCartStore();

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { useRouter } from 'next/navigation';
-import { useCartStore } from '@/features/cart/store/useCartStore';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { useRouter } from "next/navigation";
+import { useCartStore } from "@/features/cart/store/useCartStore";
 
-import { Button } from '@/shared/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,18 +14,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/components/ui/form';
-import { Input } from '@/shared/components/ui/input';
-import { toast } from 'sonner';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 // Validation schema for an Indian address
 const formSchema = z.object({
-  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  address: z.string().min(5, { message: 'Please enter a valid address.' }),
-  city: z.string().min(2, { message: 'City is required.' }),
-  state: z.string().min(2, { message: 'State is required.' }),
-  pincode: z.string().regex(/^\d{6}$/, { message: 'Must be a 6-digit pin code.' }),
-  phone: z.string().regex(/^\d{10}$/, { message: 'Must be a 10-digit mobile number.' }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  address: z.string().min(5, { message: "Please enter a valid address." }),
+  city: z.string().min(2, { message: "City is required." }),
+  state: z.string().min(2, { message: "State is required." }),
+  pincode: z
+    .string()
+    .regex(/^\d{6}$/, { message: "Must be a 6-digit pin code." }),
+  phone: z
+    .string()
+    .regex(/^\d{10}$/, { message: "Must be a 10-digit mobile number." }),
 });
 
 export function CheckoutForm() {
@@ -35,28 +39,28 @@ export function CheckoutForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      address: '',
-      city: '',
-      state: '',
-      pincode: '',
-      phone: '',
+      name: "",
+      address: "",
+      city: "",
+      state: "",
+      pincode: "",
+      phone: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log('Simulating order submission with:', {
+    console.log("Simulating order submission with:", {
       shippingDetails: values,
       orderItems: items,
     });
-    
-    toast.success('Order placed successfully!');
-    
+
+    toast.success("Order placed successfully!");
+
     // Clear the cart after placing the order
     clearCart();
 
     // Redirect to a confirmation page or homepage
-    router.push('/');
+    router.push("/");
   }
 
   return (
@@ -144,14 +148,14 @@ export function CheckoutForm() {
             )}
           />
         </div>
-        
+
         <Button
           type="submit"
           className="w-full"
           size="lg"
           disabled={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting ? 'Placing Order...' : 'Place Order'}
+          {form.formState.isSubmitting ? "Placing Order..." : "Place Order"}
         </Button>
       </form>
     </Form>

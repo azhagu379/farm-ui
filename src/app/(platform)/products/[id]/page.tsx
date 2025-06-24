@@ -1,9 +1,9 @@
 "use client";
 
 import { useProductByIdQuery } from "@/entities/product/hooks/useProductByIdQuery";
-import { Button } from "@/shared/components/ui/button";
-import { Separator } from "@/shared/components/ui/separator";
-import { Badge } from "@/shared/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 import { LoaderCircle, AlertTriangle, ShoppingCart } from "lucide-react";
 import { useParams } from "next/navigation";
 import Image from "next/image"; // The import is now uncommented

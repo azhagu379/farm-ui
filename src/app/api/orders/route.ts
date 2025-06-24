@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { orders as mockOrders } from '@/shared/lib/placeholder-data';
+import { orders as mockOrders } from '@/lib/placeholder-data';
 
 // This function handles GET requests to /api/orders
 export async function GET() {

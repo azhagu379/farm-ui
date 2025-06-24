@@ -1,6 +1,6 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { users } from '@/shared/lib/placeholder-data';
+import { users } from '@/lib/placeholder-data';
 
 export const authOptions: NextAuthOptions = {
   // Add the secret key here. It reads from the .env.local file.

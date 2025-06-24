@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { products as allProducts } from '@/shared/lib/placeholder-data';
+import { products as allProducts } from '@/lib/placeholder-data';
 
 // This function handles GET requests for a single product by its ID.
 export async function GET(

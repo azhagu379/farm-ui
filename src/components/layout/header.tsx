@@ -7,14 +7,10 @@ import {
   Tractor,
   Users,
 } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/shared/components/ui/sheet";
-import { Button } from "@/shared/components/ui/button";
-import { ThemeToggle } from "@/shared/components/common/theme-toggle";
-import { UserNav } from "@/shared/components/common/user-nav"; // Import UserNav
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/common/theme-toggle";
+import { UserNav } from "@/components/common/user-nav"; // Import UserNav
 import { CartButton } from "@/features/cart/store/components/cart-button";
 
 const mobileNavLinks = [

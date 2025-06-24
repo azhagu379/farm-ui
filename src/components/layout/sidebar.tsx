@@ -8,11 +8,11 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
-import { cn } from "@/shared/lib";
-import { Button } from "@/shared/components/ui/button";
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib";
+import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { navConfig, NavLink } from "@/shared/config/nav-config";
+import { navConfig, NavLink } from "@/config/nav-config";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
