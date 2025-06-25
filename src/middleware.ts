@@ -20,7 +20,9 @@ const publicPaths = [
   '/coming-soon',
   '/',                     // The root homepage is also publicly accessible
   '/products',             // Main product browse page
-  '/products/',            // Trailing slash version
+  '/products/',           // Trailing slash version
+  '/deals',
+  '/categories'
 ];
 
 
