@@ -9,7 +9,7 @@ export default function RegisterPage() {
       {/* Left Side: Image */}
       <div className="hidden bg-gray-100 lg:block">
         <Image
-          src="/login-background.jpg"
+          src="/login-background2.jpg"
           alt="A beautiful farm landscape at sunrise"
           width="1920"
           height="1080"

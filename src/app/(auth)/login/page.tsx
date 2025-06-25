@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { Tractor } from 'lucide-react';
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Tractor } from "lucide-react";
 
-import { LoginForm } from './login-form';
+import { LoginForm } from "./login-form";
 // import { Button } from '@/shared/components/ui/button';
 
 export default function LoginPage() {
@@ -15,7 +15,7 @@ export default function LoginPage() {
       {/* Left Side: Image */}
       <div className="hidden bg-gray-100 lg:block">
         <Image
-          src="/login-background.jpg"
+          src="/login-background2.jpg"
           alt="A beautiful farm landscape at sunrise"
           width="1920"
           height="1080"
@@ -62,7 +62,7 @@ export default function LoginPage() {
           </Button> */}
 
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{' '}
+            Don&apos;t have an account?{" "}
             <Link href="/register" className="underline">
               Sign up
             </Link>
