@@ -131,7 +131,7 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
                 "sr-only": !isSidebarOpen,
               })}
             >
-              FarmLink
+              FarmConnect
             </span>
           </Link>
         </div>

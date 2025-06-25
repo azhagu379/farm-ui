@@ -1,50 +1,26 @@
-import { products } from '@/lib/placeholder-data';
-import { NextResponse } from 'next/server';
+    import { NextResponse, type NextRequest } from 'next/server';
+    import { products } from '@/lib/placeholder-data';
 
-// This is mock data that simulates what our database would return.
-// const products = [
-//   {
-//     id: '1',
-//     name: 'Organic Carrots',
-//     farmer: 'Green Valley Farms',
-//     price: 2.99,
-//     status: 'In Stock',
-//   },
-//   {
-//     id: '2',
-//     name: 'Fresh Strawberries',
-//     farmer: 'Sunrise Orchards',
-//     price: 4.5,
-//     status: 'In Stock',
-//   },
-//   {
-//     id: '3',
-//     name: 'Pasture-Raised Eggs',
-//     farmer: 'Happy Hen Homestead',
-//     price: 5.25,
-//     status: 'Low Stock',
-//   },
-//   {
-//     id: '4',
-//     name: 'Artisanal Goat Cheese',
-//     farmer: 'Mountain Goat Dairy',
-//     price: 8.0,
-//     status: 'In Stock',
-//   },
-//   {
-//     id: '5',
-//     name: 'Heirloom Tomatoes',
-//     farmer: 'Green Valley Farms',
-//     price: 3.75,
-//     status: 'Out of Stock',
-//   },
-// ];
+    export async function GET(request: NextRequest) {
+      const { searchParams } = new URL(request.url);
+      const type = searchParams.get('type');
+      const limit = Number(searchParams.get('limit')) || undefined;
 
-// This function handles GET requests to /api/products
-export async function GET() {
-  // In a real app, you would fetch this data from your database.
-  // We'll add a short delay to simulate network latency.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+      let filteredProducts = [...products];
 
-  return NextResponse.json(products);
-}
+      // Handle different query types
+      if (type === 'new-arrivals') {
+        // Sort by creation date, newest first
+        filteredProducts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      } else if (type === 'featured') {
+        // For now, we'll just return the first few products as "featured"
+        filteredProducts = filteredProducts.slice(0, 8);
+      }
+      
+      if (limit) {
+        filteredProducts = filteredProducts.slice(0, limit);
+      }
+
+      return NextResponse.json(filteredProducts);
+    }
+    

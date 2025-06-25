@@ -4,7 +4,7 @@ import Link from "next/link";
 import {
   PanelLeft,
   Search,
-  Sprout, // Used for the FarmLink logo
+  Sprout, // Used for the FarmConnect logo
   Bell, // For notifications/activity hub
   LogIn, // For Sign In icon
   UserPlus, // For Register icon
@@ -84,7 +84,7 @@ export function Header() {
               >
                 <Sprout className="h-7 w-7 text-primary transition-all group-hover:scale-110" />{" "}
                 {/* Medium icon size */}
-                <span className="text-foreground">FarmLink</span>
+                <span className="text-foreground">FarmConnect</span>
               </Link>
               {mobileNavLinks.map(
                 (
@@ -123,7 +123,7 @@ export function Header() {
           className="group flex items-center gap-2 font-semibold text-3xl text-primary tracking-tight"
         >
           <Sprout className="h-10 w-10 transition-all group-hover:scale-110" />{" "}
-          <span className="hidden md:inline-block">FarmLink</span>
+          <span className="hidden md:inline-block">FarmConnect</span>
         </Link>
       </div>
 
