@@ -1,26 +1,36 @@
-    import { NextResponse } from 'next/server';
-    import { users } from '@/lib/placeholder-data';
+import { NextResponse } from 'next/server';
+import { users } from '@/lib/placeholder-data';
 
-    // This function handles updating a user's role
-    export async function PUT(
-      request: Request,
-      { params }: { params: { id: string } }
-    ) {
-      const { id } = params;
-      const { role } = await request.json();
+// Define allowed roles
+type Role = "BUYER" | "FARMER" | "ADMIN";
 
-      const userIndex = users.findIndex((u) => u.id === id);
+export async function PUT(
+  request: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  // Await the resolved params object
+  const { id } = await context.params;
 
-      if (userIndex === -1) {
-        return new NextResponse('User not found', { status: 404 });
-      }
+  // Parse the request body
+  const { role } = await request.json();
 
-      // Update the user's role in our "database"
-      users[userIndex].role = role;
-      console.log(`User ${id} role updated to:`, role);
+  // Validate the role field
+  const allowedRoles: Role[] = ["BUYER", "FARMER", "ADMIN"];
+  if (!allowedRoles.includes(role)) {
+    return new NextResponse('Invalid role', { status: 400 });
+  }
 
-      // Return the updated user (without password)
-      const {  ...updatedUser } = users[userIndex];
-      return NextResponse.json(updatedUser);
-    }
-    
+  const userIndex = users.findIndex((u) => u.id === id);
+
+  if (userIndex === -1) {
+    return new NextResponse('User not found', { status: 404 });
+  }
+
+  // Update the user's role in our "database"
+  users[userIndex].role = role;
+  console.log(`User ${id} role updated to:`, role);
+
+  // Return the updated user (excluding sensitive fields like password)
+  const {...updatedUser } = users[userIndex];
+  return NextResponse.json(updatedUser);
+}
