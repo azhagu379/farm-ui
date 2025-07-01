@@ -166,8 +166,9 @@ export function Sidebar({ isSidebarOpen, toggleSidebar }: SidebarProps) {
           </TooltipProvider>
         </div>
 
-        {/* Bottom Navigation Links (Account, Help & Info) */}
-        <div className="w-full mt-4 pt-4 border-t border-border/50">
+        <div className="w-full mt-auto pt-4 border-t border-border/50">
+          {" "}
+          {/* mt-auto pushes it to the bottom */}
           <TooltipProvider delayDuration={0}>
             <div className="flex w-full flex-col items-start gap-1 px-2">
               {/* Account Section */}
